@@ -1,3 +1,4 @@
+import java.util.Random;
 /**
  * Our specialty ElectricPokemon that inherits from our Pokemon class.
  */
@@ -59,7 +60,65 @@ public class ElectricPokemon extends Pokemon {
      * Implement this.
      */
     public boolean attack(final Pokemon opponent) {
-        return false;
-    }
+        /*
+         * Get the attack and defense bonuses.
+         */
+        int attackBonus = d20.roll();
+        int defenseBonus = d20.roll();
 
+        /*
+         * Roll the damage dice and compute total damage.
+         */
+        int damage1 = d6.roll();
+        int damage2 = d6.roll();
+        int damage3 = d6.roll();
+        int totalDamage = damage1 + damage2 + damage3;
+
+        System.out.println(this.getName() + " is attacking " + opponent.getName());
+        System.out.println(this.getName() + " rolls an attack bonus of " + attackBonus);
+        System.out.println(opponent.getName() + " rolls a defense bonus of " + defenseBonus);
+
+
+        /*
+         * Did our attack hit?
+         */
+        if ((this.getAttackLevel() + attackBonus) > (opponent.getDefenseLevel() + defenseBonus)) {
+            System.out.println("The attack hits dealing 3-D6 damage!");
+            System.out.println("The rolls are " + damage1 + ", " + damage2 + ", " + "and "
+                    + damage3 + " totaling: " + totalDamage + " damage!");
+
+            /*
+             * Does opponent have hit points left?
+             */
+            if ((opponent.getHitPoints() - totalDamage) > 0) {
+                System.out.println(opponent.getName() + " has "
+                        + (opponent.getHitPoints() - totalDamage) + " hit points");
+            } else {
+                System.out.println(opponent.getName() + " has been defeated!");
+            }
+            /*
+             * Set the opponents hitPoints appropriately.
+             */
+            opponent.setHitPoints(opponent.getHitPoints() - totalDamage);
+        } else {
+            System.out.println("The attack missed!");
+        }
+        System.out.println(" ");
+
+        if (opponent.getHitPoints() >= 1) {
+            return false;
+        }
+        if (opponent.pokeType != pokeType.ELECTRIC) {
+            return false;
+        }
+        final int size = 6;
+        final Random myRand = new Random();
+        if (specialtyProbability <= ((myRand.nextInt(size) + 1)/10)) {
+            return false;
+        }
+        System.out.println("Specialty attack was used!");
+        opponent.setHitPoints(0);
+        System.out.println("Your opponent lost!");
+        return true;
+    }
 }

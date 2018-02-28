@@ -103,8 +103,71 @@ public class Colosseum {
      *         <p>
      */
     public static Pokemon buildPokemon() {
-        Pokemon returnPokemon = null;
-        return returnPokemon;
+        Scanner inputScanner = new Scanner(System.in);
+        System.out.println("Please name your Pokemon:");
+        String name = inputScanner.nextLine();
+        System.out.println("How many hit points will it have? (1-50):");
+        int hitPoints = inputScanner.nextInt();
+        while (hitPoints < 1 || hitPoints > 50) {
+            if (hitPoints < 1 || hitPoints > 50) {
+                System.out.println("Sorry. Hit points must be between 1 and 50:");
+                System.out.println("How many hit points will it have? (1-50):");
+                hitPoints = inputScanner.nextInt();
+            }
+        }
+
+
+        System.out.println("Split fifty points between attack level and defense level");
+        System.out.println("Enter your attack level (1-49):");
+        int attackLevel = inputScanner.nextInt();
+        while (attackLevel > 50 || attackLevel < 1) {
+            if (attackLevel > 50 || attackLevel < 1) {
+                System.out.println("Sorry. The attack level must be between 1 and 49:");
+                System.out.println("Enter your attack level (1-49):");
+                attackLevel = inputScanner.nextInt();
+            }
+        }
+
+        int upperboundint = 50 - attackLevel;
+        String upperbound = Integer.toString(50 - attackLevel);
+        System.out.println("Enter your defense level (1-" + upperbound);
+        int defenseLevel = inputScanner.nextInt();
+        while (defenseLevel > upperboundint || defenseLevel < 1) {
+            if (defenseLevel > upperboundint || defenseLevel < 1) {
+                System.out.println("Sorry. The defense level must be between 1 and " + upperbound);
+                System.out.println("Enter your defense level (1-" + upperbound + ")");
+                defenseLevel = inputScanner.nextInt();
+            }
+        }
+        Pokemon tempPokemon = new Pokemon();
+        tempPokemon.setHitPoints(hitPoints);
+        tempPokemon.setAttackLevel(attackLevel);
+        tempPokemon.setDefenseLevel(defenseLevel);
+        System.out.println("Select from the following Pokemon types: <br>\n" +
+                "     * 1 - Electric Pokemon \n" +
+                "     * 2 - Fire Pokemon \n" +
+                "     * 3 - Water Pokemon ");
+        int pint = 0;
+        while (inputScanner.nextInt() > 3 || inputScanner.nextInt() < 1) {
+            System.out.println("Select from the following Pokemon types: <br>\n" +
+                    "     * 1 - Electric Pokemon \n" +
+                    "     * 2 - Fire Pokemon \n" +
+                    "     * 3 - Water Pokemon ");
+            pint = inputScanner.nextInt();
+            if (pint <= 3 || pint >= 1) {
+                break;
+            }
+            }
+        if (pint == 1) {
+            tempPokemon.pokeType = Pokemon.PokemonType.ELECTRIC;
+        }
+        if (pint == 2) {
+            tempPokemon.pokeType = Pokemon.PokemonType.FIRE;
+        }
+        if (pint == 3) {
+            tempPokemon.pokeType = Pokemon.PokemonType.WATER;
+        }
+        return tempPokemon;
     }
 
     /**
